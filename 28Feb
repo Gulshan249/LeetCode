@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int findBottomLeftValue(TreeNode* root) {
+        int d = 0;
+        int ans = root -> val;
+
+        function<void(TreeNode *, int)> dfs = [&](TreeNode * node, int cd) {
+            if(!node)
+                return;
+
+            if(cd > d) {
+                d = cd;
+                ans = node -> val;
+            }
+
+            dfs(node -> left, cd + 1);
+            dfs(node -> right, cd + 1);
+        };
+
+        dfs(root, 0);
+
+        return ans;
+    }
+};
