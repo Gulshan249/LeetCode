@@ -1,0 +1,23 @@
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        // Move fast pointer two steps and slow pointer one step at a time
+        while (fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        return slow;
+    }
+
+    void printList(ListNode* head) {
+        while (head != NULL) {
+            cout << head->val << " ";
+            head = head->next;
+        }
+        cout << endl;
+    }
+};
