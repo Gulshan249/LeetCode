@@ -1,0 +1,27 @@
+problem:
+Count Elements With Maximum Frequency
+
+solution:
+class Solution {
+public:
+    int maxFrequencyElements(vector<int>& nums) {
+        unordered_map<int, int> freq_map;
+        for (int num : nums) {
+            freq_map[num]++;
+        }
+
+        int max_freq = 0;
+        for (const auto& pair : freq_map) {
+            max_freq = max(max_freq, pair.second);
+        }
+
+        int count = 0;
+        for (const auto& pair : freq_map) {
+            if (pair.second == max_freq) {
+                count++;
+            }
+        }
+
+        return count * max_freq;
+    }
+};
