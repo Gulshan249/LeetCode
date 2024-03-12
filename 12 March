@@ -1,0 +1,43 @@
+Remove Zero Sum Consecutive Nodes from Linked List
+class Solution {
+public:
+    ListNode* removeZeroSumSublists(ListNode* head) {
+        // Create a dummy node to handle the case where the head itself gets removed
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        
+        // Map to store running sum and corresponding node
+        unordered_map<int, ListNode*> sumMap;
+        int prefixSum = 0;
+        
+        // Initialize the map with dummy node
+        sumMap[0] = dummy;
+        
+        // Traverse the linked list
+        while (head) {
+            prefixSum += head->val;
+            
+            // If prefixSum repeats, remove nodes between the two occurrences
+            if (sumMap.find(prefixSum) != sumMap.end()) {
+                ListNode* prev = sumMap[prefixSum]->next;
+                int currSum = prefixSum; // Store running sum in an integer variable
+                
+                while (prev != head) {
+                    currSum += prev->val;
+                    sumMap.erase(currSum);
+                    prev = prev->next;
+                }
+                
+                sumMap[prefixSum]->next = head->next;
+            } else {
+                // Store the current prefixSum and node in the map
+                sumMap[prefixSum] = head;
+            }
+            
+            // Move to the next node
+            head = head->next;
+        }
+        
+        return dummy->next;
+    }
+};
