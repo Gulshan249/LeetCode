@@ -1,0 +1,27 @@
+Task Scheduler
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        unordered_map<char, int> task_counts;
+        int max_freq = 0;
+        
+        // Count the frequency of each task
+        for (char task : tasks) {
+            task_counts[task]++;
+            max_freq = max(max_freq, task_counts[task]);
+        }
+        
+        int max_freq_tasks = 0;
+        
+        // Count the number of tasks with maximum frequency
+        for (const auto& pair : task_counts) {
+            if (pair.second == max_freq) {
+                max_freq_tasks++;
+            }
+        }
+        
+        // Calculate the minimum number of intervals required
+        // (max_freq - 1) * (n + 1) + max_freq_tasks
+        return max((max_freq - 1) * (n + 1) + max_freq_tasks, static_cast<int>(tasks.size()));
+    }
+};
