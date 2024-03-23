@@ -1,0 +1,53 @@
+143. Reorder List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if (!head || !head->next)
+            return;
+        
+        // Step 1: Split the linked list into two halves
+        ListNode *slow = head;
+        ListNode *fast = head;
+        while (fast->next && fast->next->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        ListNode *second_half = slow->next;
+        slow->next = nullptr;
+        
+        // Step 2: Reverse the second half of the linked list
+        ListNode *prev = nullptr;
+        ListNode *curr = second_half;
+        while (curr) {
+            ListNode *next_node = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next_node;
+        }
+        
+        second_half = prev;
+        
+        // Step 3: Merge the two halves alternatively
+        ListNode *first_half = head;
+        while (second_half) {
+            ListNode *next_first = first_half->next;
+            first_half->next = second_half;
+            ListNode *next_second = second_half->next;
+            second_half->next = next_first;
+            first_half = next_first;
+            second_half = next_second;
+        }
+    }
+};
