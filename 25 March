@@ -1,0 +1,31 @@
+442. Find All Duplicates in an Array
+
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> duplicates;
+
+        // Traverse through the array
+        int i = 0;
+        while (i < nums.size()) {
+            // If the current number is not in its correct position and its correct position is not occupied by the same number
+            if (nums[i] != nums[nums[i] - 1]) {
+                // Swap the numbers to put it in its correct position
+                swap(nums[nums[i] - 1], nums[i]);
+            } else {
+                // If the number is in its correct position or the correct position is occupied by the same number
+                // Move to the next number
+                i++;
+            }
+        }
+
+        // After the cyclic sort, any number that is not in its correct position is a duplicate
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] != i + 1) {
+                duplicates.push_back(nums[i]);
+            }
+        }
+
+        return duplicates;
+    }
+};
