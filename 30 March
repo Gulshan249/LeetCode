@@ -1,0 +1,32 @@
+968. Binary Tree Cameras
+class Solution {
+public:
+    int minCameraCover(TreeNode* root) {
+        // States: 0 - not monitored, 1 - monitored without camera, 2 - monitored with camera
+        return dfs(root) == 0 ? count + 1 : count;
+    }
+    
+private:
+    int count = 0;
+    
+    int dfs(TreeNode* node) {
+        if (!node)
+            return 1;
+        
+        int left = dfs(node->left);
+        int right = dfs(node->right);
+        
+        // If any child needs a camera, place camera at current node
+        if (left == 0 || right == 0) {
+            count++;
+            return 2;
+        }
+        
+        // If any child has camera, current node can be monitored without camera
+        if (left == 2 || right == 2)
+            return 1;
+        
+        // If all children are monitored without camera, current node is not monitored
+        return 0;
+    }
+};
