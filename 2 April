@@ -1,0 +1,30 @@
+205. Isomorphic Strings
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        if (s.length() != t.length())
+            return false;
+
+        unordered_map<char, char> s_to_t; 
+        unordered_set<char> mapped_chars; 
+
+        for (int i = 0; i < s.length(); ++i) {
+            char s_char = s[i];
+            char t_char = t[i];
+
+            if (s_to_t.find(s_char) != s_to_t.end()) {
+                if (s_to_t[s_char] != t_char)
+                    return false;
+            } else { 
+                if (mapped_chars.find(t_char) != mapped_chars.end())
+                    return false;
+
+               
+                s_to_t[s_char] = t_char;
+                mapped_chars.insert(t_char);
+            }
+        }
+
+        return true;
+    }
+};
