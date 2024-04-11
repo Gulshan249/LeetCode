@@ -1,0 +1,32 @@
+402. Remove K Digits
+
+
+class Solution {
+public:
+    std::string removeKdigits(std::string num, int k) {
+        int n = num.size();
+        int newLength = n - k;
+        
+        if (newLength <= 0) return "0"; // if k is greater than or equal to length of num, then return "0"
+        
+        std::string result;
+        for (char digit : num) {
+            while (k > 0 && !result.empty() && result.back() > digit) {
+                result.pop_back();
+                k--;
+            }
+            result.push_back(digit);
+        }
+        
+        // Remove remaining digits if k is not exhausted
+        result.resize(newLength);
+        
+        // Remove leading zeros
+        int nonZeroIndex = 0;
+        while (nonZeroIndex < newLength && result[nonZeroIndex] == '0') {
+            ++nonZeroIndex;
+        }
+        
+        return (nonZeroIndex == newLength) ? "0" : result.substr(nonZeroIndex);
+    }
+};
