@@ -1,0 +1,37 @@
+404. Sum of Left Leaves
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+class Solution {
+public:
+    int sumOfLeftLeaves(TreeNode* root) {
+        if (!root)
+            return 0;
+
+        // Helper function to check if a node is a leaf node and is left child
+        auto isLeaf = [](TreeNode* node) {
+            return node && !node->left && !node->right;
+        };
+
+        int left_sum = 0;
+
+        // Check if the left child is a leaf node, if yes add its value
+        if (root->left && isLeaf(root->left))
+            left_sum += root->left->val;
+
+        // Recursively traverse left and right subtrees
+        left_sum += sumOfLeftLeaves(root->left);
+        left_sum += sumOfLeftLeaves(root->right);
+
+        return left_sum;
+    }
+};
