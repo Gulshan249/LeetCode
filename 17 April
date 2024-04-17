@@ -1,0 +1,25 @@
+988. Smallest String Starting From Leaf
+
+
+class Solution {
+public:
+    string smallestFromLeaf(TreeNode* root) {
+        string min_str;
+        dfs(root, "", min_str);
+        return min_str;
+    }
+    
+    void dfs(TreeNode* node, string path, string& min_str) {
+        if (!node) return;
+        path.push_back('a' + node->val);
+        if (!node->left && !node->right) {
+            reverse(path.begin(), path.end());
+            if (min_str.empty() || path < min_str) {
+                min_str = path;
+            }
+            return;
+        }
+        dfs(node->left, path, min_str);
+        dfs(node->right, path, min_str);
+    }
+};
