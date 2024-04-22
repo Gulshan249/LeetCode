@@ -1,0 +1,34 @@
+752. Open the Lock
+
+class Solution {
+public:
+    int openLock(vector<string>& deadends, string target) {
+        unordered_set<string> dead(deadends.begin(), deadends.end());
+        if (dead.count("0000")) return -1;
+        
+        queue<pair<string, int>> q;
+        q.push({"0000", 0});
+        unordered_set<string> visited{"0000"};
+        
+        while (!q.empty()) {
+            auto [current, turns] = q.front();
+            q.pop();
+            
+            if (current == target) return turns;
+            
+            for (int i = 0; i < 4; ++i) {
+                for (int delta : {-1, 1}) {
+                    string next = current;
+                    next[i] = (next[i] - '0' + delta + 10) % 10 + '0';
+                    
+                    if (!dead.count(next) && !visited.count(next)) {
+                        q.push({next, turns + 1});
+                        visited.insert(next);
+                    }
+                }
+            }
+        }
+        
+        return -1;
+    }
+};
